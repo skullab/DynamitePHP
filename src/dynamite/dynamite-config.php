@@ -1,17 +1,21 @@
 <?php
-if(!defined('DYNAMITE')){
-	if(!isset($_REQUEST[DYNAMITE_LIBRARY])){
-		die('<b>Access denied !</b>');
-	}else die();
-}
+if(!defined('DYNAMITE'))die();
 /*
  * START TO CHANGE FROM HERE
  */
+
+define('DYNAMITE_DEBUG',// <- DO NOT TOUCH THIS !
+//############ CHANGE THIS ############
+true
+//#####################################
+);
+
 define('DYNAMITE_USER',// <- DO NOT TOUCH THIS !
 //############ CHANGE THIS ############
 'REPLACE WITH YOUR DYNAMITE USER'
 //#####################################		
 );
+
 define('DYNAMITE_DOMAIN',// <- DO NOT TOUCH THIS !
 //############ CHANGE THIS ############
 //	example : http://www.mysite.com
@@ -19,8 +23,12 @@ define('DYNAMITE_DOMAIN',// <- DO NOT TOUCH THIS !
 'LOCALHOST' 
 //#####################################
 );
-require_once DYNAMITE_CORE_PATH . 'dynamite.php' ;
-$dynamite = new Dynamite();
+
+define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
+//############ CHANGE THIS ############
+'KEY' => 'VALUE'
+//#####################################
+)));
 /*
  * STOP ! 
 */
