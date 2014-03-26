@@ -1,0 +1,39 @@
+CREATE TABLE libraries IF NOT EXISTS ( 
+id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL UNIQUE
+);
+CREATE TABLE dependencies IF NOT EXISTS ( 
+id_libraries INTEGER NOT NULL,
+reference INTEGER NOT NULL 
+);
+CREATE TABLE rules IF NOT EXISTS ( 
+id_libraries INTEGER NOT NULL REFERENCES libraries (id),
+key TEXT NOT NULL ,
+value TEXT NOT NULL 
+);
+CREATE TABLE codes IF NOT EXISTS ( 
+id_libraries INTEGER NOT NULL REFERENCES libraries (id),
+code TEXT NOT NULL,
+is_uri INTEGER NOT NULL 
+);
+CREATE TABLE users IF NOT EXISTS ( 
+id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL UNIQUE,
+pwd TEXT NOT NULL,
+auth INTEGER NOT NULL REFERENCES users_auth (value) 
+);
+CREATE TABLE users_auth IF NOT EXISTS ( 
+value INTEGER NOT NULL UNIQUE,
+description TEXT NOT NULL UNIQUE 
+);
+CREATE TRIGGER delete_libraries AFTER DELETE ON libraries
+BEGIN
+DELETE FROM dependencies WHERE dependencies.id_libraries = OLD.id ;
+DELETE FROM rules WHERE rules.id_libraries = OLD.id ;
+DELETE FROM codes WHERE codes.id_libraries = OLD.id ;
+END;
+INSERT INTO users_auth VALUES 
+(0,"admin"),
+(1,"developer"),
+(2,"contributor"),
+(3,"customer");

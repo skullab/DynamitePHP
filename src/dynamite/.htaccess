@@ -1,0 +1,5 @@
+<Files ~ "^\.(htaccess|htpasswd)$">
+order deny,allow
+deny from all
+</Files>
+ErrorDocument 404 errors/dynamite-404.php
