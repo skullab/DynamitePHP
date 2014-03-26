@@ -1,6 +1,9 @@
 <?php
 class Dynamite{
-	const LIBRARY = 'library' ;
 	function __construct(){}
+	
+	public function allowedList(){
+		
+	}
 }
 ?>
