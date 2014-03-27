@@ -26,14 +26,11 @@ define('DYNAMITE_DOMAIN',// <- DO NOT TOUCH THIS !
 
 define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
 //############ CHANGE THIS ############
-
-'ALLOW' 	=> 'www.example.com | www.example2.com | localhost' ,
-'RESTRICT'	=> 'www.example.com 	: library1,library2 | 
-				www.example2.com 	: library3 |
-				localhost			: 	?!library7 ,
-										library9'
-//'DENY'		=> 'www.example.com | www.example2.com | localhost' ,
-
+//	The syntax ?! lib1,lib2..libN means "allow all except" lib1,lib2..libN
+//	without ?! the meaning becomes "allow only" lib1,lib2..libN
+'DENY'		=> 'www.example.com | www.example2.com ' ,
+'ALLOW' 	=> '*' ,
+'RESTRICT'	=> '* : ?! jquery-ver1.8 | localhost : .',
 //'DENY_ALL'	=> true ,
 //'ALLOW_ALL' => true ,
 //#####################################

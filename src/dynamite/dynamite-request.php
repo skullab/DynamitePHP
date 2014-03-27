@@ -22,15 +22,29 @@ $dynamite->get_allowed_list()['ALLOW_ALL']){
 	check_host($dynamite->get_allowed_list()['RESTRICT'])){
 		echo 'accesso con restrizioni<br>';
 		$validate = false ;
+		$previous_pattern = '';
 		foreach (check_host($dynamite->get_allowed_list()['RESTRICT']) as $host){
-			$libraries = @explode(':',$host)[1] ;
+			$libraries = @trim(explode(':',$host)[1]) ;
 			if($libraries){
-				$pattern = '^('.str_replace(',','|', preg_replace('/\s+/', '', $libraries)).')';
+				$search = array(						
+							"/\s*,\s*/",
+							"/\s+/",
+							"/\??\!?\(((\w+)\|?)+/",
+							"/\w+/"
+				);
+				$replace = array(
+							"|",
+							"(",
+							"$0)",
+							"$0\b"
+				);
+				$pattern = '^('.preg_replace($search, $replace, trim($libraries)).')';
 				var_dump($pattern);
-				if(preg_match('/'.$pattern.'/i',preg_replace('/\s+/', '',$_REQUEST[DYNAMITE_LIBRARY]))){
+				if(preg_match('/'.$pattern.'/i',$_REQUEST[DYNAMITE_LIBRARY])){				
 					$validate = true ;
-					break;
-				}
+					echo 'OK ';
+					if(!preg_match('/\?\!/', $pattern))break;
+				}else $validate = false ;
 			}else permission_denied();
 		}
 		if(!$validate)permission_denied();
@@ -45,7 +59,8 @@ function check_host($list){
 	$host_list = explode('|', $list);
 	$ret_host = array();
 	foreach ($host_list as $host){
-		if(preg_match('/\b'.$headers['Host'].'\b/i', $host)){
+		$realhost = trim(explode(':',$host)[0]);
+		if(preg_match('/\b'.$headers['Host'].'\b/i', $host) || $realhost == '*'){
 			array_push($ret_host, $host);
 		}
 	}
@@ -61,7 +76,4 @@ function permission_denied(){
 }
 echo 'continue...<br>';
 echo 'time : '.get_execute_time();
-/*foreach (getallheaders() as $name => $value) {
-    echo "$name: $value<br>";
-}*/
 ?>
