@@ -30,7 +30,7 @@ define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
 //	without ?! the meaning becomes "allow only" lib1,lib2..libN
 'DENY'		=> 'www.example.com | www.example2.com ' ,
 'ALLOW' 	=> '*' ,
-'RESTRICT'	=> '* : ?! jquery-ver1.8 | localhost : .',
+'RESTRICT'	=> '* : foo-\w+ ',
 //'DENY_ALL'	=> true ,
 //'ALLOW_ALL' => true ,
 //#####################################
