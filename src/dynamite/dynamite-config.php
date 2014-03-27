@@ -30,10 +30,8 @@ define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
 'ALLOW' 	=> 'www.example.com | www.example2.com | localhost' ,
 'RESTRICT'	=> 'www.example.com 	: library1,library2 | 
 				www.example2.com 	: library3 |
-				localhost 			: 	library5 ,
-										library6 ,
-										library8 |
-				localhost			: 	library7' ,
+				localhost			: 	?!library7 ,
+										library9'
 //'DENY'		=> 'www.example.com | www.example2.com | localhost' ,
 
 //'DENY_ALL'	=> true ,

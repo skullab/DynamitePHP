@@ -25,7 +25,9 @@ $dynamite->get_allowed_list()['ALLOW_ALL']){
 		foreach (check_host($dynamite->get_allowed_list()['RESTRICT']) as $host){
 			$libraries = @explode(':',$host)[1] ;
 			if($libraries){
-				if(preg_match('/\b'.$_REQUEST[DYNAMITE_LIBRARY].'\b/i', trim($libraries))){
+				$pattern = '^('.str_replace(',','|', preg_replace('/\s+/', '', $libraries)).')';
+				var_dump($pattern);
+				if(preg_match('/'.$pattern.'/i',preg_replace('/\s+/', '',$_REQUEST[DYNAMITE_LIBRARY]))){
 					$validate = true ;
 					break;
 				}
