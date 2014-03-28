@@ -12,15 +12,14 @@ if(	array_key_exists('DENY_ALL', $dynamite->get_allowed_list()) &&
 	$dynamite->get_allowed_list()['DENY_ALL'])permission_denied();
 if(	array_key_exists('ALLOW_ALL', $dynamite->get_allowed_list()) &&
 $dynamite->get_allowed_list()['ALLOW_ALL']){
-	echo 'questo posto e libero a tutti !<br>';
+	//ALLOW ALL => SKIP
 }else{
-	echo 'non permetto a tutti di venire qui !<br>';
-	if(	array_key_exists('DENY', $dynamite->get_allowed_list()) &&
+	//CHECK DENY
+	if(array_key_exists('DENY', $dynamite->get_allowed_list()) &&
 	check_host($dynamite->get_allowed_list()['DENY']))permission_denied();
-	
-	if(	array_key_exists('RESTRICT', $dynamite->get_allowed_list()) &&
+	//CHECK RESTRICT
+	if(array_key_exists('RESTRICT', $dynamite->get_allowed_list()) &&
 	check_host($dynamite->get_allowed_list()['RESTRICT'])){
-		echo 'accesso con restrizioni<br>';
 		$validate = false ;
 		$previous_pattern = '';
 		foreach (check_host($dynamite->get_allowed_list()['RESTRICT']) as $host){
@@ -29,31 +28,30 @@ $dynamite->get_allowed_list()['ALLOW_ALL']){
 				$search = array(						
 							"/\s*,\s*/",
 							"/\s+/",
-							"/\??\!?\(((\w+)\|?)+/",
-							"/\w+/"
+							"/^(\?\!|\().+[^\)]$/"
 				);
 				$replace = array(
 							"|",
 							"(",
-							"$0)",
-							"$0\b"
+							"$0)"
 				);
+				
 				$pattern = '^('.preg_replace($search, $replace, trim($libraries)).')';
-				var_dump($pattern);
+				$pattern = preg_replace("/\^\((?!\?\!).*/", "$0$", $pattern);
+				//var_dump($pattern);
 				if(preg_match('/'.$pattern.'/i',$_REQUEST[DYNAMITE_LIBRARY])){				
 					$validate = true ;
-					echo 'OK ';
 					if(!preg_match('/\?\!/', $pattern))break;
 				}else $validate = false ;
 			}else permission_denied();
 		}
 		if(!$validate)permission_denied();
-	}else if(	array_key_exists('ALLOW', $dynamite->get_allowed_list()) &&
+	//CHECK ALLOW
+	}else if(array_key_exists('ALLOW', $dynamite->get_allowed_list()) &&
 	check_host($dynamite->get_allowed_list()['ALLOW'])){
-		echo 'via libera<br>';
+		//ALLOW => SKIP
 	}else permission_denied();;
 }
-
 function check_host($list){
 	global $headers ;
 	$host_list = explode('|', $list);
@@ -74,6 +72,6 @@ function get_execute_time(){
 function permission_denied(){
 	die('PERMISSION DENIED');
 }
-echo 'continue...<br>';
+
 echo 'time : '.get_execute_time();
 ?>

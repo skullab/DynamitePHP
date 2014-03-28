@@ -28,9 +28,9 @@ define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
 //############ CHANGE THIS ############
 //	The syntax ?! lib1,lib2..libN means "allow all except" lib1,lib2..libN
 //	without ?! the meaning becomes "allow only" lib1,lib2..libN
-'DENY'		=> 'www.example.com | www.example2.com ' ,
-'ALLOW' 	=> '*' ,
-'RESTRICT'	=> '* : foo-\w+ ',
+//'DENY'		=> '*' ,
+'ALLOW' 	=> 'www.example.com' ,
+'RESTRICT'	=> '* : lib1,lib2',
 //'DENY_ALL'	=> true ,
 //'ALLOW_ALL' => true ,
 //#####################################
