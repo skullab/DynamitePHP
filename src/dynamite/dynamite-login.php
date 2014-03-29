@@ -7,29 +7,37 @@ session_start();
 <html>
 <head>
 <title>Dynamite</title>
-<link href="frontend\css\dynamite-style.css" rel="stylesheet" type="text/css">
+<link href="frontend/css/dynamite-style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<header>
-<a href="">Dynamite</a>
-</header>
 
+<div class="headerbar">
+Dynamite
+</div>
+
+<div class="wrap">
 <?php
 	if(isset($_GET['nonce'])){
 		if(isset($_SESSION['dynamite_install_error'])){
 			if(verify_nonce('dynamite_install_error', $_GET['nonce'])){
 				switch ($_GET['error']){
 					case 'user':
-						echo '<div>WRONG USER NAME</div>';
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;WRONG USER NAME</div>';
 						break;
 					case 'pwd':
-						echo '<div>INCORRECT PASSWORD</div>';
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;INCORRECT PASSWORD</div>';
 						break;
 					case 'email':
-						echo '<div>NOT VALID EMAIL ADDRESS</div>';
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;INVALID EMAIL ADDRESS</div>';
 						break;
 					case 'db':
-						echo '<div>ERROR DURING CREATE DB</div>';
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;ERROR DURING CREATING DATABASE</div>';
+						break;
+					case 'invalid_session':
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;INVALID SESSION, PLEASE LOGIN AGAIN</div>';
+						break;
+					case 'auth':
+						echo '<div class="advice"><img src="frontend/img/warning_small.png" />&nbsp;INVALID USER NAME OR PASSWORD</div>';
 						break;
 				}
 			}
@@ -48,17 +56,23 @@ session_start();
 		$sqlite->close();
 		?>
 		<div>
+		<form action="frontend/dynamite-dashboard.php" method="post">
+		<input type="hidden" name="nonce" value="<?php echo create_nonce('dynamite_login');?>">
 		<table class="border-blue border-radius login-box">
 		<tr><th>User</th>
-		<td><input class="border-blue border-radius" type="text" name="user"></td>
+		<td>&nbsp;&nbsp;&nbsp;<input class="border-blue border-radius input-box" type="text" name="user" required></td>
 		</tr>
 		<tr><th>Password</th>
-		<td><input class="border-blue border-radius" type="password" name="pwd"></td>
+		<td>&nbsp;&nbsp;&nbsp;<input class="border-blue border-radius input-box" type="password" name="pwd" required></td>
+		</tr>
+		<tr><th></th>
+		<td>&nbsp;&nbsp;&nbsp;<span><a href="">I forgot my password</a></span></td>
 		</tr>
 		<tr>
-		<td colspan="2" align="center"><input class="button-primary" style="margin-top:20px;" type="button" value="LOGIN"></td>
+		<td colspan="2" align="center"><input class="button-primary" style="margin-top:20px;" type="submit" value="LOGIN"></td>
 		</tr>
 		</table>
+		</form>
 		</div>
 		<?php
 	} catch (Exception $e) {
@@ -115,7 +129,10 @@ session_start();
 		<?php 
 	} 
 ?>
+</div>
 
-<footer>Dynamite (c) 2014</footer>
+<div id="footer">
+<div>Dynamite (c) 2014 ver. <?php echo DYNAMITE_VERSION ;?></div>
+</div>
 
 </body></html>

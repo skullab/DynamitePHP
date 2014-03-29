@@ -23,4 +23,12 @@ function verify_nonce($reference,$nonce){
 	unset($_SESSION[$reference]);
 	return $check ;
 }
+
+function crypt_password($password){
+	return crypt($password);
+}
+
+function check_password($password,$hash){
+	return (crypt($password, $hash) == $hash) ;
+}
 ?>

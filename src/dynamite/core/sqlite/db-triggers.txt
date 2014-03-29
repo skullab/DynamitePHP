@@ -1,0 +1,6 @@
+CREATE TRIGGER delete_libraries AFTER DELETE ON libraries
+BEGIN
+DELETE FROM dependencies WHERE dependencies.id_libraries = OLD.id ;
+DELETE FROM rules WHERE rules.id_libraries = OLD.id ;
+DELETE FROM codes WHERE codes.id_libraries = OLD.id ;
+END;
