@@ -24,6 +24,13 @@ define('DYNAMITE_DOMAIN',// <- DO NOT TOUCH THIS !
 //#####################################
 );
 
+define('DYNAMITE_REQUEST_METHOD',// <- DO NOT TOUCH THIS !
+//############ CHANGE THIS ############
+//USE  GET ','POST ' or a combination of that : 'GET|POST'
+'GET|POST'
+//#####################################
+);
+
 define('DYNAMITE_ALLOWED_LIST',serialize(array(// <- DO NOT TOUCH THIS !
 //############ CHANGE THIS ############
 //	The syntax ?! lib1,lib2..libN means "allow all except" lib1,lib2..libN

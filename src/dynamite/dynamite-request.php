@@ -3,6 +3,16 @@ $starttime = microtime(true);
 require_once 'dynamite-define.php';if(!isset($_REQUEST[DYNAMITE_LIBRARY]))permission_denied();
 
 require_once 'dynamite-config.php';
+$request_methods = explode('|', DYNAMITE_REQUEST_METHOD);
+$check_method = false ;
+foreach ($request_methods as $method){
+	if( strtolower($_SERVER['REQUEST_METHOD']) == strtolower($method)){
+		$check_method = true ;
+		break;
+	}
+}
+if(!$check_method)permission_denied();
+
 require_once 'dynamite-utils.php';
 require_once DYNAMITE_CORE_PATH . 'dynamite.php' ;
 $dynamite = new Dynamite();
@@ -70,7 +80,7 @@ function get_execute_time(){
 	return (microtime(true) - $starttime) ;
 }
 function permission_denied(){
-	die('PERMISSION DENIED');
+	die(DYNAMITE_PERMISSION_DENIED);
 }
 
 echo 'time : '.get_execute_time();

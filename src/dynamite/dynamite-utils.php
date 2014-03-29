@@ -10,4 +10,17 @@ if (! function_exists ( 'getallheaders' )) {
 		return $headers;
 	}
 }
+
+function create_nonce($reference){
+	$nonce = substr(md5(rand(0, 1000000)), 0, 10);
+	if(isset($_SESSION))$_SESSION[$reference] = $nonce ;
+	return $nonce ;
+}
+
+function verify_nonce($reference,$nonce){
+	if(!isset($_SESSION[$reference]))return false ;
+	$check = $_SESSION[$reference] == $nonce ;
+	unset($_SESSION[$reference]);
+	return $check ;
+}
 ?>
