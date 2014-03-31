@@ -31,7 +31,12 @@ if(!$dynamite->check_user($_POST['user'],$_POST['pwd'])){
 	<div id='cssmenu'>
 	<ul>
 	   <li class='active'><a href='#'><span>Dashboard</span></a></li>
-	   <li><a href='#'><span>Users</span></a></li>
+	   <li class="has-sub" ><a href='#'><span>Users</span></a>
+	    <ul>
+	         <li><a href='#'><span>A</span></a></li>
+	         <li class='last'><a href='#'><span>B</span></a></li>
+	      </ul>
+	   </li>
 	   <li class='has-sub'><a href='#'><span>Repository</span></a>
 	      <ul>
 	         <li><a href='#'><span>Manage js code</span></a></li>
@@ -41,6 +46,7 @@ if(!$dynamite->check_user($_POST['user'],$_POST['pwd'])){
 	   <li class='has-sub last'><a href='#'><span>Plugins</span></a>
 	      <ul>
 	         <li><a href='#'><span>Installed</span></a></li>
+	         <li><a href='#'><span>Options</span></a></li>
 	         <li class='last'><a href='#'><span>Search new</span></a></li>
 	      </ul>
 	   </li>
